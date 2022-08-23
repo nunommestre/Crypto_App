@@ -38,29 +38,20 @@ struct HomeView: View {
                         .transition(.move(edge: .leading))
                 }
                 
-                if showPortfolio {
-                    ZStack(alignment: .top) {
-                        if vm.portfolioCoins.isEmpty && vm.searchText.isEmpty {
-                            portfolioEmptyText
-                        } else {
-                            portfolioCoinsList
-                        }
-                    }
-                    .transition(.move(edge: .trailing))
-                }
+              
                 
                 Spacer(minLength: 0)
             }
-//            .sheet(isPresented: $showSettingsView, content: {
+//         .sheet(isPresented: $showSettingsView, content: {
 //                SettingsView()
 //            })
         }
-//        .background(
-//            NavigationLink(
-//                destination: DetailLoadingView(coin: $selectedCoin),
-//                isActive: $showDetailView,
-//                label: { EmptyView() })
-//        )
+        .background(
+            NavigationLink(
+                destination: DetailLoadingView(coin: $selectedCoin),
+                isActive: $showDetailView,
+                label: { EmptyView() })
+        )
     }
 }
 
@@ -78,34 +69,13 @@ extension HomeView {
     
     private var homeHeader: some View {
         HStack {
-            CircleButtonView(iconName: showPortfolio ? "plus" : "info")
-                .animation(.none)
-                .onTapGesture {
-                    if showPortfolio {
-                        showPortfolioView.toggle()
-                    } else {
-                        showSettingsView.toggle()
-                    }
-                }
-                .background(
-                    CircleButtonAnimationView(animate: $showPortfolio)
-                )
-            Spacer()
-            Text(showPortfolio ? "Portfolio" : "Live Prices")
+            Text("Live Prices")
                 .font(.headline)
                 .fontWeight(.heavy)
                 .foregroundColor(Color.theme.accent)
                 .animation(.none)
-            Spacer()
-            CircleButtonView(iconName: "chevron.right")
-                .rotationEffect(Angle(degrees: showPortfolio ? 180 : 0))
-                .onTapGesture {
-                    withAnimation(.spring()) {
-                        showPortfolio.toggle()
-                    }
-                }
         }
-        .padding(.horizontal)
+        .padding()
     }
         
     private var allCoinsList: some View {
